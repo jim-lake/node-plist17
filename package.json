@@ -1,0 +1,42 @@
+{
+  "name": "plist17",
+  "version": "1.0.0",
+  "description": "Node Apple Plist17 encode/decode",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "pretty": "prettier --write src/* dist/*.js dist/*.ts package.json tsconfig.json test/**/*",
+    "lint": "eslint src/*",
+    "build": "tsc",
+    "test": "mocha 'test/**/*.test.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jim-lake/node-plist17.git"
+  },
+  "keywords": [
+    "plist17",
+    "binary",
+    "plist",
+    "xpc"
+  ],
+  "author": "github.com/jim-lake",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jim-lake/node-plist17/issues"
+  },
+  "homepage": "https://github.com/jim-lake/node-plist17#readme",
+  "devDependencies": {
+    "chai": "4.x",
+    "mocha": "10.8.2",
+    "@eslint/js": "9.13.0",
+    "@types/eslint__js": "8.42.3",
+    "@types/node": "22.7.7",
+    "@typescript-eslint/parser": "8.10.0",
+    "eslint": "9.13.0",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.10.0"
+  }
+}
