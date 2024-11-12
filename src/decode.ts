@@ -35,7 +35,7 @@ function _toObj(buf: Buffer, start: number): [obj: any, next: number] {
           next += 5;
           break;
         default:
-          throw new Error('unsupported type');
+          throw new Error('unsupported type: 0x' + buf0.toString(16));
       }
       break;
     case 0x60:
@@ -70,7 +70,7 @@ function _toObj(buf: Buffer, start: number): [obj: any, next: number] {
       next++;
       break;
     default:
-      throw new Error('unsupported type');
+      throw new Error('unsupported type: 0x' + buf0.toString(16));
   }
   return [obj, next];
 }

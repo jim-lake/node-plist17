@@ -23,6 +23,7 @@ const OBJ_WITH_TRUE = Buffer.from(
 );
 
 const INVALID = Buffer.from('1111', 'hex');
+const UNSUPPORTED = Buffer.from('62706c6973743137d0', 'hex');
 
 describe('ascii', function () {
   it('simple', function () {
@@ -80,6 +81,9 @@ describe('decoder', function () {
     expect(deepEqual(ret, expected_ret));
     expect(ret).to.deep.equal(expected_ret);
   });
+  it('unsupported type', function () {
+    expect(decode.bind(null, UNSUPPORTED)).to.throw('unsupported type: 0xd0');
+  });
 });
 describe('encoder', function () {
   it('obj response', function () {
@@ -101,6 +105,14 @@ describe('encoder', function () {
   it('obj with true', function () {
     const obj = [null, ascii`v@?B`, [true]];
     expect(encode(obj)).to.deep.equal(OBJ_WITH_TRUE);
+  });
+  it('unsupported type object', function () {
+    const obj = [{ foo: true }];
+    expect(encode.bind(null, obj)).to.throw('unsupported plist type: object');
+  });
+  it('unsupported type float', function () {
+    const obj = [0.5];
+    expect(encode.bind(null, obj)).to.throw('unsupported plist type: number');
   });
 });
 function deepEqual(x, y) {

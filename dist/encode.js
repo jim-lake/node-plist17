@@ -68,10 +68,10 @@ function _fromObj(obj, start) {
       ret.writeUInt8(0x11);
       ret.writeInt8(obj, 1);
     } else {
-      throw new Error('unsupported plist value');
+      throw new Error('unsupported plist int value: ' + obj);
     }
   } else {
-    throw new Error('unsupported plist value');
+    throw new Error('unsupported plist type: ' + typeof obj);
   }
   return ret;
 }
