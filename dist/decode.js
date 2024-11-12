@@ -1,14 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.decode = decode;
-const BPLIST17 = Buffer.from("bplist17", "ascii");
+const BPLIST17 = Buffer.from('bplist17', 'ascii');
 function decode(buffer) {
   let ret;
   if (buffer.length < BPLIST17.length) {
-    throw new Error("invalid bplist");
+    throw new Error('invalid bplist');
   }
   if (buffer.compare(BPLIST17, 0, BPLIST17.length, 0, BPLIST17.length) !== 0) {
-    throw new Error("invalid bplist");
+    throw new Error('invalid bplist');
   } else {
     const pos = BPLIST17.length;
     ret = _toObj(buffer.subarray(pos), pos)[0];
@@ -37,14 +37,14 @@ function _toObj(buf, start) {
           next += 5;
           break;
         default:
-          throw new Error("unsupported type");
+          throw new Error('unsupported type');
       }
       break;
     case 0x60:
-      [obj, next] = _readStr(buf, start, head_len, 2, "utf16le");
+      [obj, next] = _readStr(buf, start, head_len, 2, 'utf16le');
       break;
     case 0x70:
-      [obj, next] = _readStr(buf, start, head_len, 1, "ascii");
+      [obj, next] = _readStr(buf, start, head_len, 1, 'ascii');
       break;
     case 0xa0:
       {
@@ -59,12 +59,20 @@ function _toObj(buf, start) {
         next = end + 1;
       }
       break;
+    case 0xb0:
+      obj = true;
+      next++;
+      break;
+    case 0xc0:
+      obj = false;
+      next++;
+      break;
     case 0xe0:
       obj = null;
       next++;
       break;
     default:
-      throw new Error("unsupported type");
+      throw new Error('unsupported type');
   }
   return [obj, next];
 }
@@ -76,7 +84,7 @@ function _readStr(buf, start, head_len, char_len, encoding) {
   }
   const str_start = end - start;
   const byte_len = str_len * char_len;
-  const str_end = str_start + byte_len - (encoding === "ascii" ? 1 : 0);
+  const str_end = str_start + byte_len - (encoding === 'ascii' ? 1 : 0);
   const obj = buf.subarray(str_start, str_end).toString(encoding);
   end += byte_len;
   return [obj, end];

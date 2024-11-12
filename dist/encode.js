@@ -1,9 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.ascii = ascii;
 exports.encode = encode;
-const BPLIST17 = Buffer.from("bplist17", "ascii");
-const VALUE_NULL = Buffer.from("e0", "hex");
+const BPLIST17 = Buffer.from('bplist17', 'ascii');
+const VALUE_TRUE = Buffer.from('b0', 'hex');
+const VALUE_FALSE = Buffer.from('c0', 'hex');
+const VALUE_NULL = Buffer.from('e0', 'hex');
 class StringAscii {
   constructor(str) {
     this.str = str;
@@ -13,7 +15,7 @@ class StringAscii {
   }
 }
 function ascii(strings, ...args) {
-  let full = "";
+  let full = '';
   for (let i = 0; i < strings.length; i++) {
     full += strings[i];
     if (args.length > i) {
@@ -30,6 +32,10 @@ function _fromObj(obj, start) {
   let ret;
   if (obj === null) {
     ret = VALUE_NULL;
+  } else if (obj === true) {
+    ret = VALUE_TRUE;
+  } else if (obj === false) {
+    ret = VALUE_FALSE;
   } else if (Array.isArray(obj)) {
     const header = Buffer.alloc(9);
     header.writeUInt8(0xa0, 0);
@@ -42,12 +48,12 @@ function _fromObj(obj, start) {
     header.writeBigUInt64LE(BigInt(pos - 1), 1);
     ret = Buffer.concat([header, ...parts]);
   } else if (obj instanceof StringAscii) {
-    const str = obj.str + "\0";
+    const str = obj.str + '\0';
     const header = _strHeader(str, 0x70);
-    ret = Buffer.concat([header, Buffer.from(str, "ascii")]);
-  } else if (typeof obj === "string") {
+    ret = Buffer.concat([header, Buffer.from(str, 'ascii')]);
+  } else if (typeof obj === 'string') {
     const header = _strHeader(obj, 0x60);
-    ret = Buffer.concat([header, Buffer.from(obj, "utf16le")]);
+    ret = Buffer.concat([header, Buffer.from(obj, 'utf16le')]);
   } else if (Number.isInteger(obj)) {
     if (obj > 0x7fff) {
       ret = Buffer.alloc(5);
@@ -62,10 +68,10 @@ function _fromObj(obj, start) {
       ret.writeUInt8(0x11);
       ret.writeInt8(obj, 1);
     } else {
-      throw new Error("unsupported plist value");
+      throw new Error('unsupported plist value');
     }
   } else {
-    throw new Error("unsupported plist value");
+    throw new Error('unsupported plist value');
   }
   return ret;
 }

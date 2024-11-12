@@ -1,12 +1,12 @@
-const BPLIST17 = Buffer.from("bplist17", "ascii");
+const BPLIST17 = Buffer.from('bplist17', 'ascii');
 
 export function decode(buffer: Buffer): any {
   let ret;
   if (buffer.length < BPLIST17.length) {
-    throw new Error("invalid bplist");
+    throw new Error('invalid bplist');
   }
   if (buffer.compare(BPLIST17, 0, BPLIST17.length, 0, BPLIST17.length) !== 0) {
-    throw new Error("invalid bplist");
+    throw new Error('invalid bplist');
   } else {
     const pos = BPLIST17.length;
     ret = _toObj(buffer.subarray(pos), pos)[0];
@@ -35,14 +35,14 @@ function _toObj(buf: Buffer, start: number): [obj: any, next: number] {
           next += 5;
           break;
         default:
-          throw new Error("unsupported type");
+          throw new Error('unsupported type');
       }
       break;
     case 0x60:
-      [obj, next] = _readStr(buf, start, head_len, 2, "utf16le");
+      [obj, next] = _readStr(buf, start, head_len, 2, 'utf16le');
       break;
     case 0x70:
-      [obj, next] = _readStr(buf, start, head_len, 1, "ascii");
+      [obj, next] = _readStr(buf, start, head_len, 1, 'ascii');
       break;
     case 0xa0:
       {
@@ -57,12 +57,20 @@ function _toObj(buf: Buffer, start: number): [obj: any, next: number] {
         next = end + 1;
       }
       break;
+    case 0xb0:
+      obj = true;
+      next++;
+      break;
+    case 0xc0:
+      obj = false;
+      next++;
+      break;
     case 0xe0:
       obj = null;
       next++;
       break;
     default:
-      throw new Error("unsupported type");
+      throw new Error('unsupported type');
   }
   return [obj, next];
 }
@@ -71,7 +79,7 @@ function _readStr(
   start: number,
   head_len: number,
   char_len: number,
-  encoding: BufferEncoding,
+  encoding: BufferEncoding
 ): [obj: string, end: number] {
   let str_len = head_len;
   let end = start + 1;
@@ -80,7 +88,7 @@ function _readStr(
   }
   const str_start = end - start;
   const byte_len = str_len * char_len;
-  const str_end = str_start + byte_len - (encoding === "ascii" ? 1 : 0);
+  const str_end = str_start + byte_len - (encoding === 'ascii' ? 1 : 0);
   const obj = buf.subarray(str_start, str_end).toString(encoding);
   end += byte_len;
   return [obj, end];

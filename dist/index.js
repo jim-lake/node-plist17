@@ -1,23 +1,23 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.ascii = exports.encode = exports.decode = void 0;
-const decode_1 = require("./decode");
-const encode_1 = require("./encode");
-var decode_2 = require("./decode");
-Object.defineProperty(exports, "decode", {
+const decode_1 = require('./decode');
+const encode_1 = require('./encode');
+var decode_2 = require('./decode');
+Object.defineProperty(exports, 'decode', {
   enumerable: true,
   get: function () {
     return decode_2.decode;
   },
 });
-var encode_2 = require("./encode");
-Object.defineProperty(exports, "encode", {
+var encode_2 = require('./encode');
+Object.defineProperty(exports, 'encode', {
   enumerable: true,
   get: function () {
     return encode_2.encode;
   },
 });
-Object.defineProperty(exports, "ascii", {
+Object.defineProperty(exports, 'ascii', {
   enumerable: true,
   get: function () {
     return encode_2.ascii;
