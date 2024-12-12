@@ -23,15 +23,15 @@ function _toObj(buf: Buffer, start: number): [obj: any, next: number] {
     case 0x10:
       switch (head_len) {
         case 0x01:
-          obj = buf.readInt8(1);
+          obj = buf.readUInt8(1);
           next += 2;
           break;
         case 0x02:
-          obj = buf.readInt16LE(1);
+          obj = buf.readUInt16LE(1);
           next += 3;
           break;
         case 0x04:
-          obj = buf.readInt32LE(1);
+          obj = buf.readUInt32LE(1);
           next += 5;
           break;
         default:
@@ -70,7 +70,9 @@ function _toObj(buf: Buffer, start: number): [obj: any, next: number] {
       next++;
       break;
     default:
-      throw new Error('unsupported type: 0x' + buf0.toString(16));
+      throw new Error(
+        'unsupported type: 0x' + buf0.toString(16) + ', at:' + start
+      );
   }
   return [obj, next];
 }

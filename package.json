@@ -1,6 +1,6 @@
 {
   "name": "plist17",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Node Apple Plist17 encode/decode",
   "main": "dist/index.js",
   "files": [
